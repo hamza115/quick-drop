@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (see DESIGN.md §3), taken from design-preview/design.html.
+ *
+ * Direction: a calm monochrome "vault". Off-white page, white cards that float on soft shadows
+ * instead of borders, grey container steps for wells and chips, pure black for primary actions and
+ * the active nav item, pill-shaped buttons, and one mint-green "live" accent for status dots.
+ * Light and dark themes follow the device setting.
+ */
+:root {
+  color-scheme: light;
+
+  --background: #f9f9f9; /* page (surface) */
+  --surface: #ffffff; /* cards, sheets (surface-container-lowest) */
+  --surface-muted: #f3f3f4; /* sidebar, search, chips (surface-container-low) */
+  --surface-container: #eeeeee; /* icon tiles, secondary pills */
+  --surface-high: #e8e8e8; /* hover on containers */
+  --surface-highest: #e2e2e2; /* meter tracks, kbd */
+  --surface-glass: rgb(249 249 249 / 0.8); /* sticky header */
+  --border: #e8e8e8; /* rare dividers */
+  --border-strong: #cfc4c5; /* outline-variant: inputs, separators */
+  --foreground: #1a1c1c; /* on-surface */
+  --muted: #4c4546; /* on-surface-variant: secondary text */
+  --subtle: #7e7576; /* outline: decorative icons, placeholders */
+
+  --primary: #000000;
+  --primary-hover: #1b1b1b;
+  --primary-foreground: #ffffff;
+
+  /* Kept for focus rings and selection; monochrome in this design. */
+  --accent: #1a1c1c;
+  --accent-hover: #000000;
+  --accent-pressed: #000000;
+  --accent-soft: #eeeeee;
+  --accent-ink: #1a1c1c;
+  --accent-foreground: #ffffff;
+  --ring: #1a1c1c;
+
+  /* Mint "live" accent (tertiary): status dots and Ready badges. */
+  --live: #8dd6ac;
+  --live-soft: #a9f2c7;
+  --live-ink: #002112;
+  --live-strong: #005233;
+
+  --secondary: #5d5f5d; /* second segment in charts */
+  --secondary-dim: #c6c7c5; /* third segment in charts */
+
+  --success: #005233;
+  --success-soft: #a9f2c7;
+  --warning: #8a5000;
+  --warning-soft: #ffe8c7;
+  --danger: #ba1a1a;
+  --danger-solid: #ba1a1a;
+  --danger-soft: #ffdad6;
+
+  --shadow-sm: 0 1px 8px rgb(0 0 0 / 0.04);
+  --shadow-xs: 0 1px 8px rgb(0 0 0 / 0.02);
+  --shadow-md: 0 6px 20px -6px rgb(0 0 0 / 0.12);
+  --shadow-lg: 0 18px 44px -12px rgb(0 0 0 / 0.22), 0 2px 8px rgb(0 0 0 / 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --background: #101111;
+    --surface: #18191a;
+    --surface-muted: #1e1f20;
+    --surface-container: #252627;
+    --surface-high: #2c2d2e;
+    --surface-highest: #353637;
+    --surface-glass: rgb(16 17 17 / 0.8);
+    --border: #2a2b2c;
+    --border-strong: #4c4546;
+    --foreground: #eef0f0;
+    --muted: #c8c0c1;
+    --subtle: #968d8e;
+
+    --primary: #ffffff;
+    --primary-hover: #e2e2e2;
+    --primary-foreground: #000000;
+
+    --accent: #eef0f0;
+    --accent-hover: #ffffff;
+    --accent-pressed: #ffffff;
+    --accent-soft: #2c2d2e;
+    --accent-ink: #eef0f0;
+    --accent-foreground: #000000;
+    --ring: #eef0f0;
+
+    --live: #8dd6ac;
+    --live-soft: #0d3a25;
+    --live-ink: #a9f2c7;
+    --live-strong: #8dd6ac;
+
+    --secondary: #a4a6a4;
+    --secondary-dim: #5d5f5d;
+
+    --success: #8dd6ac;
+    --success-soft: #0d3a25;
+    --warning: #ffc46b;
+    --warning-soft: #3a2a10;
+    --danger: #ffb4ab;
+    --danger-solid: #d63a3a;
+    --danger-soft: #3b1513;
+
+    --shadow-sm: 0 1px 8px rgb(0 0 0 / 0.35);
+    --shadow-xs: 0 1px 8px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.6);
+    --shadow-lg: 0 18px 44px -12px rgb(0 0 0 / 0.75);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-surface-glass: var(--surface-glass);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-pressed: var(--accent-pressed);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --color-live: var(--live);
+  --color-live-soft: var(--live-soft);
+  --color-live-ink: var(--live-ink);
+  --color-live-strong: var(--live-strong);
+  --color-secondary: var(--secondary);
+  --color-secondary-dim: var(--secondary-dim);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-solid: var(--danger-solid);
+  --color-danger-soft: var(--danger-soft);
+
+  --font-sans: var(--font-app), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale from the design (font size / line height / tracking / weight). */
+  --text-caption: 12.5px;
+  --text-caption--line-height: 19px;
+  --text-item: 14.5px;
+  --text-item--line-height: 20px;
+  --text-item--font-weight: 600;
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-title: 23px;
+  --text-title--line-height: 28px;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 700;
+  --text-headline: 44px;
+  --text-headline--line-height: 48px;
+  --text-headline--letter-spacing: -0.03em;
+  --text-headline--font-weight: 700;
+
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
+  --radius-sheet: 1rem;
+  --shadow-soft: var(--shadow-sm);
+  --shadow-card: var(--shadow-xs);
+  --shadow-raised: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+
+  --animate-sheet-up: sheet-up 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-pop-in: pop-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in: fade-in 160ms ease-out;
+  --animate-toast-in: toast-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-progress: progress-grow 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Windows tall enough for fixed-height, independently scrolling panels (the file screen). */
+@custom-variant tall (@media (min-height: 720px));
+
+/* Safe areas for phones with notches and home indicators (viewport-fit=cover is set in the root layout). */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility bottom-nav-offset {
+  /* Space taken by the phone tab bar, so floating panels and toasts sit above it. */
+  bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 22px;
+  overscroll-behavior-y: none;
+}
+
+/* Native dialogs: dim and slightly blur what's behind. */
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.4);
+  backdrop-filter: blur(2px);
+}
+
+/* Visible keyboard focus everywhere, never on mouse clicks. */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+@keyframes splash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mobile splash: skipped on repeat visits in the same tab. The head script sets this before first paint. */
+html[data-splash="seen"] #splash-screen {
+  display: none;
+}
+
+/* Loading placeholder: a soft highlight that moves across the page's own colours. */
+.skeleton {
+  border-radius: var(--radius-control);
+  background: linear-gradient(90deg, var(--surface-muted) 25%, var(--surface-container) 37%, var(--surface-muted) 63%);
+  background-size: 400% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

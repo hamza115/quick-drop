@@ -1,0 +1,16 @@
+# Never upload secrets; Vercel uses the project's environment variables instead.
+.env
+.env.*
+!.env.example
+
+# Rebuilt on Vercel.
+node_modules
+.next
+public/ffmpeg
+*.tsbuildinfo
+
+# Local-only material.
+design-preview
+*.docx
+~$*
+till.txt
