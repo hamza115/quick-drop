@@ -6,6 +6,7 @@ import { Suspense, useCallback, useEffect, useState, type ReactNode } from "reac
 import { Logo } from "@/components/brand/logo";
 import { AccountMenu } from "@/components/app/account-menu";
 import { MobileTabBar } from "@/components/app/mobile-tab-bar";
+import { PullToRefresh } from "@/components/app/pull-to-refresh";
 import { SearchForm } from "@/components/app/search-form";
 import { ShortcutsButton } from "@/components/app/shortcuts-button";
 import { SidebarNav } from "@/components/app/sidebar-nav";
@@ -162,6 +163,7 @@ export function AppShell({ userEmail, userName, storage, sidebarCollapsed = fals
       <Suspense>
         <MobileTabBar />
       </Suspense>
+      <PullToRefresh />
     </div>
   );
 }

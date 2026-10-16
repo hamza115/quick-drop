@@ -49,6 +49,11 @@ function client() {
   return cloudinary;
 }
 
+/** The configured SDK, for Admin API calls such as the usage report. Server only. */
+export function getCloudinaryAdmin() {
+  return client();
+}
+
 export function signUploadParams(params: Record<string, string | number>): string {
   const { apiSecret } = getCloudinaryCredentials();
   return client().utils.api_sign_request(params, apiSecret);

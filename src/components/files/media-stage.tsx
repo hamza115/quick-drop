@@ -131,8 +131,9 @@ export function MediaStage({ item, previousHref, nextHref, onMeasure, size, pdfA
         </div>
       </div>
 
-      {/* Stage */}
+      {/* Stage. Drags here pan the image, so they never start pull-to-refresh. */}
       <div
+        data-no-pull
         className={cn(
           "relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-5 pt-16 lg:px-10 lg:pb-6 lg:pt-16",
           isImage && zoom > 100 && "cursor-grab active:cursor-grabbing",

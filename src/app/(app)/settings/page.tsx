@@ -3,12 +3,14 @@ import { redirect } from "next/navigation";
 import { InstallRow } from "@/components/app/install-promo";
 import { StorageCard } from "@/components/app/storage-card";
 import { ProfileCard, SessionsGroup } from "@/components/settings/account-section";
+import { CloudinaryUsageGroup } from "@/components/settings/cloudinary-usage";
 import { LibrarySettingsGroup } from "@/components/settings/preferences-form";
 import { SettingsNav, type SettingsNavItem } from "@/components/settings/settings-nav";
 import { Callout, SettingRow, SettingsGroup } from "@/components/settings/settings-ui";
 import { Icon } from "@/components/ui/icons";
 import { CompressionSettingsGroup } from "@/components/uploads/compression-settings";
 import { getCurrentSession } from "@/lib/auth/session";
+import { getCloudinaryUsage } from "@/lib/cloudinary/usage";
 import { getStorageStatus } from "@/lib/files/repository";
 import { getPreferences } from "@/lib/preferences/repository";
 
@@ -23,6 +25,7 @@ const SECTIONS: SettingsNavItem[] = [
   { id: "uploads", label: "Uploads", icon: "sparkles" },
   { id: "library", label: "Library", icon: "folderOpen" },
   { id: "storage", label: "Storage", icon: "cloud" },
+  { id: "cloudinary", label: "Cloudinary", icon: "trendUp" },
   { id: "app", label: "App", icon: "keyboard" },
   { id: "account", label: "Account", icon: "shield" },
 ];
@@ -35,9 +38,10 @@ export default async function SettingsPage() {
   const session = await getCurrentSession();
   if (!session) redirect("/login");
 
-  const [preferences, storage] = await Promise.all([
+  const [preferences, storage, cloudinaryUsage] = await Promise.all([
     getPreferences(session.user.id),
     getStorageStatus(session.user.id),
+    getCloudinaryUsage(),
   ]);
 
   return (
@@ -94,6 +98,8 @@ export default async function SettingsPage() {
               }
             />
           </SettingsGroup>
+
+          <CloudinaryUsageGroup id="cloudinary" usage={cloudinaryUsage} />
 
           <SettingsGroup id="app" icon="keyboard" title="App" description="Use QuickDrop like an app on your phone.">
             <InstallRow />
